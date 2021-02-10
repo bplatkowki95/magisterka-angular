@@ -1,0 +1,55 @@
+<div>
+  <p-button label="Add new car" icon="pi pi-times" class="p-button-text" (click)="showDialog()"></p-button>
+  <p-table #dt [value]="cars" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,100,1000]" [globalFilterFields]="['vin','brand','model','year','price']">
+
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+        List of Cars
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="vin">Vin<p-sortIcon field="vin"></p-sortIcon>
+        </th>
+        <th pSortableColumn="brand">Brand<p-sortIcon field="brand"></p-sortIcon>
+        </th>
+        <th>Logo</th>
+        <th pSortableColumn="model">Model<p-sortIcon field="model"></p-sortIcon>
+        </th>
+        <th pSortableColumn="year">Year<p-sortIcon field="year"></p-sortIcon>
+        </th>
+        <th>Color</th>
+        <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-car>
+      <tr>
+        <td> {{car.vin}} </td>
+        <td> {{car.brand}} </td>
+        <td> <img [src]="'../assets/img/' +car.brand.toLowerCase() + '.png'" class="brand" /></td>
+        <td> {{car.model}} </td>
+        <td> {{car.year}} </td>
+        <td>
+          <div class="car-color" appCarColor [carColor]="car.color"></div>
+        </td>
+        <td> {{car.price}} </td>
+        <td>
+          <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="removeCar(car.vin)"></p-button>
+          <p-button type="button" icon="pi pi-cog" class="p-button-secondary" (click)="editCar(car)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</div>
+
+<app-add-car-dialog [dialogVisible]="dialogVisible" [cars]="cars" [editedCar]="carToEdit" (dialogClosedEvent)="dialogClosedEvent()" (saveCarEvent)="saveCarEvent($event)"></app-add-car-dialog>

@@ -1,0 +1,41 @@
+<p-dialog header="Car Details" class="p-fluid" (onHide)="onDialogHide()" [(visible)]="dialogVisible" [modal]="true" [style]="{width: '450px'}" [closable]="false">
+
+  <div class="p-field">
+    <label for="vin">Vin</label>
+    <input type="text" pInputText id="vin" [(ngModel)]="car.vin" [disabled]="isEditDialog" ngClass="{'p-invalid': submitted && !car.vin}"/>
+    <small class="p-invalid" *ngIf="submitted && !car.vin">Vin is required.</small>
+    <small class="p-invalid" *ngIf="submitted && vinValidationFailed">Entered VIN already exists.</small>
+  </div>
+  <div class="p-field">
+    <label for="brand">Brand</label>
+    <p-dropdown [(ngModel)]="selectedBrand" [options]="carBrands" placeholder="Select a Brand" [filter]="true" filterPlaceholder="Find Brand"></p-dropdown>
+    <small class="p-invalid" *ngIf="submitted && !selectedBrand">Brand is required.</small>
+  </div>
+  <div class="p-field">
+    <label for="model">Model</label>
+    <input type="text" pInputText id="model" [(ngModel)]="car.model"/>
+    <small class="p-invalid" *ngIf="submitted && !car.model">Model is required.</small>
+  </div>
+  <div class="p-field">
+    <label for="color" class="color-label">Color:</label>
+    <p-colorPicker [(ngModel)]="car.color" defaultColor="#000000"></p-colorPicker>
+  </div>
+
+  <div class="p-formgrid p-grid">
+    <div class="p-field p-col">
+      <label for="price">Price</label>
+      <p-inputNumber id="price" [(ngModel)]="car.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+      <small class="p-invalid" *ngIf="submitted && !car.price">Price is required.</small>
+    </div>
+    <div class="p-field p-col">
+      <label for="year">Year</label>
+      <p-inputNumber id="year" [(ngModel)]="car.year" inputId="integeronly"></p-inputNumber>
+      <small class="p-invalid" *ngIf="submitted && !car.year">Year is required.</small>
+    </div>
+  </div>
+
+  <p-footer>
+    <p-button label="Cancel" icon="pi pi-times" class="p-button-text" (click)="sendDialogClosedEvent()"></p-button>
+    <p-button label="Save" icon="pi pi-check" class="p-button-text" (click)="saveCar()"></p-button>
+  </p-footer>
+</p-dialog>
